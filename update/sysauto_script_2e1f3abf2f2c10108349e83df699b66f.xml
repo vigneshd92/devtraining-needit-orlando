@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sysauto_script">
+    <sysauto_script action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <business_calendar/>
+        <condition/>
+        <conditional>false</conditional>
+        <entered_time>1970-01-01 08:05:00</entered_time>
+        <name> Find NeedIt Tasks Due Soon.</name>
+        <run_as display_value="System Administrator">6816f79cc0a8016401c5a33be04be441</run_as>
+        <run_as_tz/>
+        <run_dayofmonth>1</run_dayofmonth>
+        <run_dayofweek>1</run_dayofweek>
+        <run_period/>
+        <run_start>2020-05-10 09:13:09</run_start>
+        <run_time>1970-01-01 08:05:00</run_time>
+        <run_type>daily</run_type>
+        <script><![CDATA[var dueSoon = new GlideRecord('x_58872_needit_needit_task');
+var today= new GlideDateTime();
+
+dueSoon.addQuery('due_date','>=', today);
+dueSoon.addQuery('due_date','<', gs.hoursAgo(-24));
+dueSoon.addQuery('state','!=', '3');
+dueSoon.query();
+
+while(dueSoon.next())
+	{
+		gs.info("Tasks which are due in next 24 hrs from " + today + " = " + dueSoon.number);
+		gs.eventQueue('x_58872_needit.dueSoon',dueSoon,dueSoon.number,dueSoon.short_description,'my_queue_due_soon');
+	}]]></script>
+        <sys_class_name>sysauto_script</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2020-05-10 09:44:54</sys_created_on>
+        <sys_id>2e1f3abf2f2c10108349e83df699b66f</sys_id>
+        <sys_mod_count>4</sys_mod_count>
+        <sys_name> Find NeedIt Tasks Due Soon.</sys_name>
+        <sys_package display_value="NeedIt" source="x_58872_needit">6ead8e780f603200cd674f8ce1050ed1</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="NeedIt">6ead8e780f603200cd674f8ce1050ed1</sys_scope>
+        <sys_update_name>sysauto_script_2e1f3abf2f2c10108349e83df699b66f</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2020-05-12 06:10:56</sys_updated_on>
+        <time_zone>floating</time_zone>
+        <upgrade_safe>false</upgrade_safe>
+    </sysauto_script>
+</record_update>
